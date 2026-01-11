@@ -8,7 +8,7 @@ RUN echo '#!/bin/sh' > /app/start-kestra.sh && \
     echo 'export KESTRA_SERVER_PORT=${PORT:-8080}' >> /app/start-kestra.sh && \
     echo '' >> /app/start-kestra.sh && \
     echo '# Start Kestra server standalone' >> /app/start-kestra.sh && \
-    echo 'exec kestra server standalone' >> /app/start-kestra.sh && \
+    echo 'exec /app/kestra server standalone' >> /app/start-kestra.sh && \
     chmod +x /app/start-kestra.sh
 
 # Set entrypoint
