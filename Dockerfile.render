@@ -1,0 +1,15 @@
+# Dockerfile for Render deployment
+# Kế thừa từ Kestra official image
+FROM kestra/kestra:latest
+
+# Tạo wrapper script để map PORT từ Render → KESTRA_SERVER_PORT
+RUN echo '#!/bin/sh
+# Map PORT env var từ Render sang KESTRA_SERVER_PORT
+export KESTRA_SERVER_PORT=${PORT:-8080}
+
+# Start Kestra server standalone
+exec kestra server standalone' > /start-kestra.sh && \
+    chmod +x /start-kestra.sh
+
+# Set entrypoint
+ENTRYPOINT ["/start-kestra.sh"]
