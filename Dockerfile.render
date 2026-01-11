@@ -3,7 +3,8 @@
 FROM kestra/kestra:latest
 
 # Tạo wrapper script để map PORT từ Render → KESTRA_SERVER_PORT
-RUN sh -c 'cat > /start-kestra.sh << '\''EOF'\''\n\
+# Tạo file ở /app thay vì / để tránh permission denied
+RUN sh -c 'cat > /app/start-kestra.sh << '\''EOF'\''\n\
 #!/bin/sh\n\
 # Map PORT env var từ Render sang KESTRA_SERVER_PORT\n\
 export KESTRA_SERVER_PORT=${PORT:-8080}\n\
@@ -11,7 +12,7 @@ export KESTRA_SERVER_PORT=${PORT:-8080}\n\
 # Start Kestra server standalone\n\
 exec kestra server standalone\n\
 EOF\n\
-chmod +x /start-kestra.sh'
+chmod +x /app/start-kestra.sh'
 
 # Set entrypoint
-ENTRYPOINT ["/start-kestra.sh"]
+ENTRYPOINT ["/app/start-kestra.sh"]
